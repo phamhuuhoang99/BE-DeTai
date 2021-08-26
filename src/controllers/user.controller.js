@@ -13,19 +13,8 @@ class UserController {
       );
   }
   create(req, res) {
-    //Validate
-    //...
-    // ex:
-    // Validate request
-    // if (!req.body.title) {
-    //   res.status(400).send({
-    //     message: "Content can not be empty!",
-    //   });
-    //   return;
-    // }
-
     //Get data
-    let { first_name, last_name, username, password, phone } = req.body;
+    let { first_name, last_name, username, password, phone, email } = req.body;
 
     User.create({
       first_name,
@@ -33,6 +22,7 @@ class UserController {
       username,
       password,
       phone,
+      email,
     })
       .then((user) => res.json(user))
       .catch((err) => {
@@ -57,6 +47,11 @@ class UserController {
   }
   update(req, res) {
     const id = req.params.id;
+
+    //--Code phèn--
+    delete req.body.id;
+    //---------------
+
     User.update(req.body, {
       where: { id: id },
     })

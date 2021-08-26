@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-
+var cors = require("cors");
 const route = require("./src/routes/index.route");
 
 //Database connection
@@ -9,6 +9,7 @@ const db = require("./src/config/database");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // f
+app.use(cors());
 
 try {
   db.authenticate();

@@ -1,9 +1,9 @@
 const usersRoute = require("./user.route");
-// const siteRoute = require("./site");
+const missionsRoute = require("./mission.route");
 
 function route(app) {
   app.use("/users", usersRoute);
-  // app.use("/", siteRoute);
+  app.use("/missions", missionsRoute);
 }
 
 module.exports = route;
