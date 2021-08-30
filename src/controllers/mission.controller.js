@@ -1,9 +1,11 @@
-const Mission = require("../models/mission.model");
+const { Mission } = require("../models/index.model");
+const { Plan } = require("../models/index.model");
 
 class MissionController {
   findAll(req, res) {
     Mission.findAll({
       order: [["createdAt", "DESC"]],
+      include: Plan,
     })
       .then((missions) => {
         res.json(missions);

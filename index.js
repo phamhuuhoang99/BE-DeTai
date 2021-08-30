@@ -17,14 +17,7 @@ try {
 } catch (error) {
   console.error("Unable to connect to the database:", error);
 }
-
-// app.use("/users", require("./src/routes/index"));
 route(app);
-
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
