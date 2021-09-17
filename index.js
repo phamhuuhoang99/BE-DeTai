@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+const hostname = process.env.HOST;
 var cors = require("cors");
 const route = require("./src/routes/index.route");
+require("dotenv").config();
 
 //Database connection
 const db = require("./src/config/database");
@@ -19,5 +21,5 @@ try {
 }
 route(app);
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://${hostname}:${port}`);
 });

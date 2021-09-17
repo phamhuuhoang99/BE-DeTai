@@ -18,6 +18,19 @@ class PlanController {
         });
       });
   }
+  findOne(req, res) {
+    const id = req.params.id;
+
+    Plan.findByPk(id, { include: ["schemes"] })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error retrieving User with id=" + id,
+        });
+      });
+  }
   // delete(req, res) {
   //   const id = req.params.id;
 
