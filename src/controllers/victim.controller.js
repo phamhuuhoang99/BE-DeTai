@@ -15,8 +15,10 @@ class VictimController {
   create(req, res) {
     console.log(req.body);
     //Get data
+
     let { name, birthday, hometown, characteristic, image, missionId } =
-      req.body;
+      req.body.victim;
+    if (birthday === "") birthday = null;
 
     Victim.create({
       name,

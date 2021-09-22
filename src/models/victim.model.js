@@ -22,9 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     image: {
       type: DataTypes.STRING,
     },
-    // missionId: {
-    //   type: DataTypes.INTEGER,
-    // },
   });
   return Victim;
 };
