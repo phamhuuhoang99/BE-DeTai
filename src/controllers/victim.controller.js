@@ -1,4 +1,5 @@
 const { Victim } = require("../models/index.model");
+const fs = require("fs");
 
 class VictimController {
   // findAll(req, res) {
@@ -13,9 +14,6 @@ class VictimController {
   //     );
   // }
   create(req, res) {
-    console.log(req.body);
-    //Get data
-
     let { name, birthday, hometown, characteristic, image, missionId } =
       req.body.victim;
     if (birthday === "") birthday = null;
@@ -85,6 +83,47 @@ class VictimController {
           message: "Could not delete User with id=" + id,
         });
       });
+  }
+
+  upload(req, res) {
+    // save file if present
+    const file = req.files.file;
+    let fileName = file.name;
+    // fileName = new Date().toLocaleString() + fileName;
+    const fileMovePromise = req.files
+      ? new Promise((resolve, reject) => {
+          console.log(file);
+          file.mv("./src/uploads/" + fileName, function (err) {
+            if (err) return reject(err);
+            resolve();
+          });
+        })
+      : Promise.resolve("No file present");
+
+    fileMovePromise
+      .then(() => {
+        // do other stuff
+        res.status(200).json(fileName);
+      })
+      .catch((err) => {
+        console.log("err");
+        res.status(500).json(err);
+      });
+  }
+  deleteImage(req, res) {
+    const file = req.body.imageName;
+    let filePath = "./src/uploads/" + file;
+    try {
+      fs.unlinkSync(filePath);
+
+      res.status(201).send({ message: "Image deleted" });
+    } catch (e) {
+      res.status(400).send({
+        message: "Error deleting image!",
+        error: e.toString(),
+        req: req.body,
+      });
+    }
   }
 }
 module.exports = new VictimController();

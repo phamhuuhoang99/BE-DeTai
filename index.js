@@ -5,6 +5,7 @@ const hostname = process.env.HOST;
 var cors = require("cors");
 const route = require("./src/routes/index.route");
 require("dotenv").config();
+const fileUpload = require("express-fileupload");
 
 //Database connection
 const db = require("./src/config/database");
@@ -12,6 +13,8 @@ const db = require("./src/config/database");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // f
 app.use(cors());
+app.use("/uploads", express.static("src/uploads"));
+app.use(fileUpload());
 
 try {
   db.authenticate();

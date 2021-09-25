@@ -7,5 +7,7 @@ router.post("/create", VictimController.create);
 // router.get("/:id", UserController.findOne);
 // router.put("/:id", UserController.update);
 // router.delete("/:id", UserController.delete);
+router.post("/upload", VictimController.upload);
+router.post("/delete-image", VictimController.deleteImage);
 
 module.exports = router;
