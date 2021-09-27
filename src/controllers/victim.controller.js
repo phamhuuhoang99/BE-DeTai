@@ -2,17 +2,17 @@ const { Victim } = require("../models/index.model");
 const fs = require("fs");
 
 class VictimController {
-  // findAll(req, res) {
-  //   Victim.findAll()
-  //     .then((victims) => {
-  //       res.json(victims);
-  //     })
-  //     .catch((err) =>
-  //       res.status(404).send({
-  //         message: err,
-  //       })
-  //     );
-  // }
+  findAll(req, res) {
+    Victim.findAll()
+      .then((victims) => {
+        res.json(victims);
+      })
+      .catch((err) =>
+        res.status(404).send({
+          message: err,
+        })
+      );
+  }
   create(req, res) {
     let { name, birthday, hometown, characteristic, image, missionId } =
       req.body.victim;
