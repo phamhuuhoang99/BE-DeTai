@@ -5,12 +5,14 @@ const MissModel = require("../models/mission.model");
 const PlanModel = require("../models/plan.model");
 const SchemeModel = require("../models/scheme.model");
 const VictimModel = require("../models/victim.model");
+const MaterialModel = require("../models/material.model");
 
 const User = UserModel(db, Sequelize);
 const Mission = MissModel(db, Sequelize);
 const Plan = PlanModel(db, Sequelize);
 const Scheme = SchemeModel(db, Sequelize);
 const Victim = VictimModel(db, Sequelize);
+const Material = MaterialModel(db, Sequelize);
 
 /* ---------------- Relationship 1-n --------------------*/
 Mission.hasMany(Plan, {
@@ -29,6 +31,13 @@ Mission.hasMany(Victim, {
 Victim.belongsTo(Mission);
 /* ------------------------------------------------------*/
 
+/*-----------------------Relationship 1-n----------------*/
+Mission.hasMany(Material, {
+  onDelete: "CASCADE",
+});
+Material.belongsTo(Mission);
+/* ------------------------------------------------------*/
+
 db.sync({ force: true }).then(() => {
   console.log(`Database & tables created!`);
 });
@@ -39,4 +48,5 @@ module.exports = {
   Plan,
   Scheme,
   Victim,
+  Material,
 };
