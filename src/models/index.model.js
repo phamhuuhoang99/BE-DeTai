@@ -6,6 +6,7 @@ const PlanModel = require("../models/plan.model");
 const SchemeModel = require("../models/scheme.model");
 const VictimModel = require("../models/victim.model");
 const MaterialModel = require("../models/material.model");
+const SymbolModel = require("../models/symbol.model");
 
 const User = UserModel(db, Sequelize);
 const Mission = MissModel(db, Sequelize);
@@ -13,6 +14,7 @@ const Plan = PlanModel(db, Sequelize);
 const Scheme = SchemeModel(db, Sequelize);
 const Victim = VictimModel(db, Sequelize);
 const Material = MaterialModel(db, Sequelize);
+const Symbol = SymbolModel(db, Sequelize);
 
 /* ---------------- Relationship 1-n --------------------*/
 Mission.hasMany(Plan, {
@@ -49,4 +51,5 @@ module.exports = {
   Scheme,
   Victim,
   Material,
+  Symbol,
 };
