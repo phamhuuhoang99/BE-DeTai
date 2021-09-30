@@ -1,11 +1,11 @@
-const { Victim } = require("../models/index.model");
+const { Unit } = require("../models/index.model");
 const fs = require("fs");
 
-class VictimController {
+class UnitController {
   findAll(req, res) {
-    Victim.findAll()
-      .then((victims) => {
-        res.json(victims);
+    Unit.findAll()
+      .then((units) => {
+        res.json(units);
       })
       .catch((err) =>
         res.status(404).send({
@@ -14,40 +14,37 @@ class VictimController {
       );
   }
   create(req, res) {
-    let { name, birthday, hometown, characteristic, image, missionId } =
-      req.body.victim;
-    if (birthday === "") birthday = null;
+    let { name, number, vehicleNumber, image, typeUnit } = req.body;
 
-    Victim.create({
+    Unit.create({
       name,
-      birthday,
-      hometown,
-      characteristic,
+      number,
+      vehicleNumber,
       image,
-      missionId,
+      typeUnit,
     })
       .then((victim) => res.json(victim))
       .catch((err) => {
         res.status(400).send({
           message:
-            err.message || "Some error occurred while creating the Victim.",
+            err.message || "Some error occurred while creating the Unit.",
         });
       });
   }
   delete(req, res) {
     const id = req.params.id;
 
-    Victim.destroy({
+    Unit.destroy({
       where: { id: id },
     })
       .then((num) => {
         if (num == 1) {
           res.send({
-            message: "Victim was deleted successfully!",
+            message: "Unit was deleted successfully!",
           });
         } else {
           res.send({
-            message: `Cannot delete Victim with id=${id}. Maybe User was not found!`,
+            message: `Cannot delete Victim with id=${id}. Maybe Unit was not found!`,
           });
         }
       })
@@ -66,7 +63,7 @@ class VictimController {
     const fileMovePromise = req.files
       ? new Promise((resolve, reject) => {
           console.log(file);
-          file.mv("./src/uploads/" + fileName, function (err) {
+          file.mv("./src/uploads/units/" + fileName, function (err) {
             if (err) return reject(err);
             resolve();
           });
@@ -85,7 +82,7 @@ class VictimController {
   }
   deleteImage(req, res) {
     const file = req.body.imageName;
-    let filePath = "./src/uploads/" + file;
+    let filePath = "./src/uploads/units/" + file;
     try {
       fs.unlinkSync(filePath);
 
@@ -99,4 +96,4 @@ class VictimController {
     }
   }
 }
-module.exports = new VictimController();
+module.exports = new UnitController();

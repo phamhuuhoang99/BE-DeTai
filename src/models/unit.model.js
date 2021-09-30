@@ -1,26 +1,27 @@
 module.exports = (sequelize, DataTypes) => {
-  const Victim = sequelize.define("victim", {
+  const Unit = sequelize.define("unit", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Nhập tên Nạn nhân",
+          msg: "Nhập tên Đơn vị",
         },
       },
     },
-    birthday: {
-      type: DataTypes.DATE,
+    number: {
+      type: DataTypes.INTEGER,
     },
-    hometown: {
-      type: DataTypes.STRING,
-    },
-    characteristic: {
-      type: DataTypes.STRING,
+    vehicleNumber: {
+      type: DataTypes.INTEGER,
     },
     image: {
       type: DataTypes.STRING,
     },
+    typeUnit: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
-  return Victim;
+  return Unit;
 };
