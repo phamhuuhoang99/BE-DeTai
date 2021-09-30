@@ -53,7 +53,7 @@ class VictimController {
       })
       .catch((err) => {
         res.status(404).send({
-          message: "Could not delete User with id=" + id,
+          message: "Could not delete Victim with id=" + id,
         });
       });
   }
@@ -62,10 +62,8 @@ class VictimController {
     // save file if present
     const file = req.files.file;
     let fileName = file.name;
-    // fileName = new Date().toLocaleString() + fileName;
     const fileMovePromise = req.files
       ? new Promise((resolve, reject) => {
-          console.log(file);
           file.mv("./src/uploads/" + fileName, function (err) {
             if (err) return reject(err);
             resolve();

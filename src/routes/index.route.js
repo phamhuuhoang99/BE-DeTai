@@ -6,6 +6,7 @@ const victimsRoute = require("./victim.route.js");
 const materialsRoute = require("./material.route.js");
 const symbolRoute = require("./symbol.route.js");
 const unitRoute = require("./unit.route.js");
+const PersonRoute = require("./personnel.route.js");
 
 function route(app) {
   app.use("/users", usersRoute);
@@ -16,6 +17,7 @@ function route(app) {
   app.use("/materials", materialsRoute);
   app.use("/symbols", symbolRoute);
   app.use("/units", unitRoute);
+  app.use("/personnel", PersonRoute);
 }
 
 module.exports = route;

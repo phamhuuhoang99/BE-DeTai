@@ -8,6 +8,7 @@ const VictimModel = require("../models/victim.model");
 const MaterialModel = require("../models/material.model");
 const SymbolModel = require("../models/symbol.model");
 const UnitModel = require("../models/unit.model");
+const PersonnelModel = require("../models/personnel.model");
 
 const User = UserModel(db, Sequelize);
 const Mission = MissModel(db, Sequelize);
@@ -17,6 +18,7 @@ const Victim = VictimModel(db, Sequelize);
 const Material = MaterialModel(db, Sequelize);
 const Symbol = SymbolModel(db, Sequelize);
 const Unit = UnitModel(db, Sequelize);
+const Personnel = PersonnelModel(db, Sequelize);
 
 /* ---------------- Relationship 1-n --------------------*/
 Mission.hasMany(Plan, {
@@ -42,6 +44,13 @@ Mission.hasMany(Material, {
 Material.belongsTo(Mission);
 /* ------------------------------------------------------*/
 
+/*-----------------------Relationship 1-n----------------*/
+Unit.hasMany(Personnel, {
+  onDelete: "CASCADE",
+});
+Personnel.belongsTo(Unit);
+/* ------------------------------------------------------*/
+
 db.sync({ force: true }).then(() => {
   console.log(`Database & tables created!`);
 });
@@ -55,4 +64,5 @@ module.exports = {
   Material,
   Symbol,
   Unit,
+  Personnel,
 };

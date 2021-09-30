@@ -1,9 +1,11 @@
-const { Unit } = require("../models/index.model");
+const { Unit, Personnel } = require("../models/index.model");
 const fs = require("fs");
 
 class UnitController {
   findAll(req, res) {
-    Unit.findAll()
+    Unit.findAll({
+      include: Personnel,
+    })
       .then((units) => {
         res.json(units);
       })
