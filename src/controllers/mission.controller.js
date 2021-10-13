@@ -58,6 +58,33 @@ class MissionController {
         });
       });
   }
+  update(req, res) {
+    const id = req.params.id;
+
+    //--Code phèn--
+    delete req.body.id;
+    //---------------
+
+    Mission.update(req.body, {
+      where: { id: id },
+    })
+      .then((num) => {
+        if (num == 1) {
+          res.json({
+            message: "User was updated successfully.",
+          });
+        } else {
+          res.json({
+            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error updating User with id=" + id,
+        });
+      });
+  }
 }
 
 module.exports = new MissionController();
