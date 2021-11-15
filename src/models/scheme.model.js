@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    type_draw: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
   return Scheme;
 };

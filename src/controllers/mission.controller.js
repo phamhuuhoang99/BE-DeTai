@@ -3,9 +3,11 @@ class MissionController {
   findAll(req, res) {
     Mission.findAll({
       order: [["createdAt", "DESC"]],
-      include: Plan,
-      include: Victim,
-      include: Material,
+      include: [
+        { model: Plan, require: true },
+        { model: Victim, require: true },
+        { model: Material, require: true },
+      ],
     })
       .then((missions) => {
         res.json(missions);
