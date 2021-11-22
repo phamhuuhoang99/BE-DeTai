@@ -1,20 +1,30 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const port = process.env.PORT;
 const hostname = process.env.HOST;
-var cors = require("cors");
+const cors = require("cors");
 const route = require("./src/routes/index.route");
-require("dotenv").config();
 const fileUpload = require("express-fileupload");
+const logger = require("morgan");
+const passport = require("passport");
 
 //Database connection
-const db = require("./src/config/database");
+const db = require("./src/configs/database");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // f
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:8080"],
+  })
+);
 app.use("/uploads", express.static("src/uploads"));
 app.use(fileUpload());
+app.use(passport.initialize());
+app.use(logger("dev"));
 
 try {
   db.authenticate();

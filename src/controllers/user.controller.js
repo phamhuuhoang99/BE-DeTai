@@ -1,4 +1,19 @@
 const { User } = require("../models/index.model");
+const JWT = require("jsonwebtoken");
+
+const { JWT_SECRET } = require("../configs/index");
+
+const encodedToken = (userID) => {
+  return JWT.sign(
+    {
+      iss: "Huu Hoang",
+      sub: userID,
+      iat: new Date().getTime(), // ngay phat hanh
+      exp: new Date().setDate(new Date().getDate() + 3),
+    },
+    JWT_SECRET
+  );
+};
 
 class UserController {
   findAll(req, res) {
@@ -12,9 +27,17 @@ class UserController {
         })
       );
   }
-  create(req, res) {
+  async create(req, res) {
     //Get data
     let { first_name, last_name, username, password, phone, email } = req.body;
+    const foundUser = await User.findOne({ where: { email } });
+    if (foundUser) {
+      return res.status(403).json({
+        // error: {
+        message: "Email tồn tại",
+        // },
+      });
+    }
 
     User.create({
       first_name,
@@ -24,7 +47,12 @@ class UserController {
       phone,
       email,
     })
-      .then((user) => res.json(user))
+      .then((user) => {
+        // const token = encodedToken(user.id);
+        // res.setHeader("Authorization", token);
+        const { password, ...data } = user.toJSON();
+        res.status(201).json({ success: true, data });
+      })
       .catch((err) => {
         res.status(500).send({
           message:
@@ -32,6 +60,13 @@ class UserController {
         });
       });
   }
+  signIn(req, res) {
+    const token = encodedToken(req.user._id);
+    res.setHeader("Authorization", token);
+
+    return res.status(200).json({ success: true });
+  }
+
   findOne(req, res) {
     const id = req.params.id;
 
@@ -94,6 +129,13 @@ class UserController {
           message: "Could not delete User with id=" + id,
         });
       });
+  }
+  secret(req, res) {
+    console.log(req);
+  }
+  logout(req, res) {
+    res.setHeader("Authorization", "");
+    res.send({ message: "success" });
   }
 }
 module.exports = new UserController();

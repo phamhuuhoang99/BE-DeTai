@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("user", {
     first_name: {
@@ -34,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: {
         args: true,
-        msg: "Email đã tồn tại!",
+        msg: "Số điện thoại đã tồn tại!",
       },
     },
     email: {
@@ -52,5 +53,28 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   });
+
+  User.prototype.isValidPassword = async function (newPassword) {
+    try {
+      return await bcrypt.compare(newPassword, this.password);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  User.beforeCreate(async (user, options) => {
+    try {
+      //Generate salt
+      const salt = await bcrypt.genSalt(10);
+      //Generate a password hash (salt +  hash password)
+      const passwordHash = await bcrypt.hash(user.password, salt);
+      console.log(passwordHash);
+      //re-assign Password hashed
+      user.password = passwordHash;
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
+
   return User;
 };
